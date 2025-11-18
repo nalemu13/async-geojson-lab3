@@ -1,0 +1,10 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "properties": { "name": "Seattle", "type": "City", "capacity": 733000 }, "geometry": { "type": "Point", "coordinates": [-122.3321, 47.6062] } },
+    { "type": "Feature", "properties": { "name": "Portland", "type": "City", "capacity": 652000 }, "geometry": { "type": "Point", "coordinates": [-122.6765, 45.5231] } },
+    { "type": "Feature", "properties": { "name": "San Francisco", "type": "City", "capacity": 808000 }, "geometry": { "type": "Point", "coordinates": [-122.4194, 37.7749] } },
+    { "type": "Feature", "properties": { "name": "Los Angeles", "type": "City", "capacity": 3890000 }, "geometry": { "type": "Point", "coordinates": [-118.2437, 34.0522] } },
+    { "type": "Feature", "properties": { "name": "Denver", "type": "City", "capacity": 711000 }, "geometry": { "type": "Point", "coordinates": [-104.9903, 39.7392] } }
+  ]
+}
