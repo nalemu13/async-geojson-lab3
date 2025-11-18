@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Washington" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-124.733, 48.381],
+          [-117.032, 48.999],
+          [-116.916, 45.999],
+          [-124.733, 46.146],
+          [-124.733, 48.381]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Oregon" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-124.703, 46.263],
+          [-116.463, 46.292],
+          [-116.463, 42.0],
+          [-124.556, 42.0],
+          [-124.703, 46.263]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "California" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-124.482, 42.009],
+          [-114.131, 42.009],
+          [-114.131, 32.528],
+          [-124.482, 32.528],
+          [-124.482, 42.009]
+        ]]
+      }
+    }
+  ]
+}
