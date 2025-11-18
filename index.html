@@ -22,20 +22,20 @@
 <body>
   <main id="container">
     <div id="side-panel">
-      <h2>Feature List</h2>
-      <button id="sort-btn">Sort by Value</button>
+      <h2>Major U.S. Cities</h2>
+      <button id="sort-btn">Sort by Population</button>
       <table id="list-table">
-        <tr><th>Name</th><th>Value</th><th>Info</th></tr>
+        <tr><th>Name</th><th>Capacity</th><th>Type</th></tr>
       </table>
     </div>
     <div id="map"></div>
   </main>
 
   <script>
-    // Different basemap (OpenStreetMap raster)
+    // OpenStreetMap raster basemap
     const map = new maplibregl.Map({
       container: 'map',
-      center: [-122.33, 47.61], // set to your area
+      center: [-122.33, 47.61],
       zoom: 10,
       style: {
         "version": 8,
@@ -52,11 +52,11 @@
     });
 
     async function geojsonFetch(){
-      // Update these filenames to match your assets
-      const ptsResp = await fetch('assets/points.geojson');
-      const points = await ptsResp.json();
-      const polyResp = await fetch('assets/polys.geojson');
-      const polys  = await polyResp.json();
+      // filenames must match your assets exactly
+      const ptsResp  = await fetch('assets/points.geojson');
+      const points   = await ptsResp.json();
+      const polyResp = await fetch('assets/polygons.geojson');   // <-- fixed name
+      const polys    = await polyResp.json();
 
       map.on('load', () => {
         // Polygons
@@ -70,7 +70,7 @@
           paint:{ 'line-color':'#116fa3', 'line-width':1 }
         });
 
-        // Points
+        // Points (color by 'capacity')
         map.addSource('points', { type:'geojson', data: points });
         map.addLayer({
           id:'points', type:'circle', source:'points',
@@ -78,32 +78,34 @@
             'circle-radius':6,
             'circle-stroke-width':1.5,
             'circle-stroke-color':'#fff',
-            // color by numeric "value" property if present
-            'circle-color':['interpolate', ['linear'], ['get','value'], 0,'#56b881', 10,'#e67e22', 20,'#e74c3c']
+            'circle-color': ['interpolate', ['linear'], ['get','capacity'],
+              0, '#56b881', 800000, '#e67e22', 2000000, '#e74c3c'
+            ]
           }
         });
 
-        // Popups on click
+        // Popups
         map.on('click', 'points', (e) => {
           const p = e.features[0].properties;
           new maplibregl.Popup()
             .setLngLat(e.lngLat)
-            .setHTML(`<strong>${p.name ?? 'Feature'}</strong><br>Value: ${p.value ?? 'n/a'}`)
+            .setHTML(`<strong>${p.name ?? 'Feature'}</strong><br>Type: ${p.type ?? 'n/a'}<br>Capacity: ${p.capacity ?? 'n/a'}`)
             .addTo(map);
         });
         map.on('mouseenter','points',()=>map.getCanvas().style.cursor='pointer');
         map.on('mouseleave','points',()=>map.getCanvas().style.cursor='');
       });
 
-      // Build the table (adjust property names to yours)
+      // Build the table using name / capacity / type
       const table = document.getElementById('list-table');
       for (const f of points.features){
         const r = table.insertRow(-1);
         r.insertCell(0).innerText = f.properties.name ?? '(no name)';
-        r.insertCell(1).innerText = f.properties.value ?? '';
-        r.insertCell(2).innerText = f.properties.info ?? '';
+        r.insertCell(1).innerText = f.properties.capacity ?? '';
+        r.insertCell(2).innerText = f.properties.type ?? '';
       }
 
+      // Sort by Capacity (descending)
       document.getElementById('sort-btn').addEventListener('click', () => {
         let switching = true;
         while (switching) {
@@ -121,4 +123,3 @@
   </script>
 </body>
 </html>
-
